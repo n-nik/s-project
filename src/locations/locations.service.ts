@@ -15,4 +15,8 @@ export class LocationsService {
   async getList(): Promise<Location[]> {
     return this.locationModel.findAll({ limit: DEFAULT_LIMIT });
   }
+
+  async getById(id: number): Promise<Location> {
+    return this.locationModel.findByPk(id);
+  }
 }

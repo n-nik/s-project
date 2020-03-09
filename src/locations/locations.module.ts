@@ -9,6 +9,7 @@ import { Location } from './models/location.model'
     SequelizeModule.forFeature([Location])
   ],
   controllers: [LocationsController],
-  providers: [LocationsService]
+  providers: [LocationsService],
+  exports: [LocationsService]
 })
 export class LocationsModule {}
