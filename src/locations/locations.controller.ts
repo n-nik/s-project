@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { LocationsService } from './locations.service';
+import { Location } from './models/location.model';
 
 @Controller('locations')
 export class LocationsController {
