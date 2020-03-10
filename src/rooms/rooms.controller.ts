@@ -1,10 +1,11 @@
 import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
 import { RoomsService } from './rooms.service';
-import { Room } from './models/room.model';
 import { GetRoomsListParams } from './dto/getRoomsListParams';
 import { GetRoomsListQueryParams } from './dto/getRoomsListQueryParams';
 import { Location } from '../locations/models/location.model';
 import { LocationsService } from '../locations/locations.service';
+import { ListResponseModel } from '../common/interfaces/responses.model';
+import { RoomDto } from './dto/roomDto';
 
 @Controller()
 export class RoomsController {
@@ -17,7 +18,7 @@ export class RoomsController {
   async getList(
     @Param() params: GetRoomsListParams,
     @Query() query: GetRoomsListQueryParams
-  ): Promise<Room[]>{
+  ): Promise<ListResponseModel<RoomDto>>{
 
     const location: Location = await this.locationsService.getById(params.locationId);
     if (!location) {
@@ -31,7 +32,13 @@ export class RoomsController {
     if (count) {
       data = await this.roomsService.getList(scopes, query);
     }
-    return data;
+
+    return {
+      data: data.map(item => new RoomDto(item)),
+      pagination: {
+        totalCount: count
+      }
+    };
   }
 
 }

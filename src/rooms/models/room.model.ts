@@ -24,6 +24,11 @@ export class Room extends Model<Room> {
   })
   capacity: number;
 
+  @Column({
+    type: DataType.DECIMAL(7, 2),
+  })
+  price: number;
+
   @ForeignKey(() => Location)
   @Column({
     type: DataType.INTEGER
