@@ -14,20 +14,19 @@ export class RoomBookingController {
   ) {}
 
   @Post('rooms/:roomId/booking')
-  async createBooking(
-    @Param() params: CreateBookingPathParams,
-    @Body() body: CreateBookingBody): Promise<ResponseModel<RoomBookingDto>> {
+  async createBooking(@Param() params: CreateBookingPathParams,
+                      @Body() body: CreateBookingBody
+  ): Promise<ResponseModel<RoomBookingDto>> {
+
+    /* TODO add validation of max, min dates, startDate must be less than endDate */
 
     const room: Room = await this.roomsService.getById(params.roomId);
     if (!room) {
       throw new NotFoundException('Room not found')
     }
 
-    const bookedRoomsCount = await this.roomBookingService.getBookedRoomsCount(
-      params.roomId,
-      body.startDate,
-      body.endDate,
-    );
+    const bookedRoomsCount = await this.roomBookingService
+      .getBookedRoomsCount(params.roomId, body.startDate, body.endDate);
 
     if (bookedRoomsCount >= room.capacity) {
       throw new UnprocessableEntityException('Room not available')

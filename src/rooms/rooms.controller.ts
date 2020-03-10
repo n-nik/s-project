@@ -15,10 +15,10 @@ export class RoomsController {
   ) {}
 
   @Get('locations/:locationId/rooms')
-  async getList(
-    @Param() params: GetRoomsListParams,
-    @Query() query: GetRoomsListQueryParams
-  ): Promise<ListResponseModel<RoomDto>>{
+  async getList(@Param() params: GetRoomsListParams,
+                @Query() query: GetRoomsListQueryParams
+  ): Promise<ListResponseModel<RoomDto>> {
+    /* TODO add validation of max, min dates, startDate must be less than endDate */
 
     const location: Location = await this.locationsService.getById(params.locationId);
     if (!location) {
@@ -26,7 +26,10 @@ export class RoomsController {
     }
 
     let data = [];
-    const scopes = [];
+    const scopes = [{method: ['filterByLocation', params.locationId]}];
+    if (query.startDate && query.endDate) {
+      scopes.push({method: ['withBookedCount', query.startDate, query.endDate]})
+    }
 
     const count = await this.roomsService.getCount(scopes);
     if (count) {
