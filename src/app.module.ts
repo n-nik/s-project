@@ -5,6 +5,7 @@ import { LocationsModule } from './locations/locations.module';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { RoomsModule } from './rooms/rooms.module';
+import { RoomBookingModule } from './room-booking/room-booking.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { RoomsModule } from './rooms/rooms.module';
       synchronize: true,
     }),
     RoomsModule,
+    RoomBookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

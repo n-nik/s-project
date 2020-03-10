@@ -18,4 +18,8 @@ export class RoomsService {
   async getCount(scopes: any[]): Promise<number> {
     return this.roomModel.scope(scopes).count();
   }
+
+  async getById(id: number): Promise<Room> {
+    return this.roomModel.findByPk(id);
+  }
 }

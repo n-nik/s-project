@@ -1,7 +1,6 @@
-import { GetListQueryParams } from '../../common/dto/getListQueryParams';
 import { IsISO8601, IsString } from 'class-validator';
 
-export class GetRoomsListQueryParams extends GetListQueryParams {
+export class CreateBookingBody {
   @IsString()
   @IsISO8601()
   startDate: string;

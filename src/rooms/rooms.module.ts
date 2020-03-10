@@ -11,6 +11,7 @@ import { LocationsModule } from '../locations/locations.module';
     LocationsModule
   ],
   controllers: [RoomsController],
-  providers: [RoomsService]
+  providers: [RoomsService],
+  exports: [RoomsService]
 })
 export class RoomsModule {}
