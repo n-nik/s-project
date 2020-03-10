@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Location } from './models/location.model';
-import { DEFAULT_LIMIT } from '../app.constants';
+import { GetLocationListQueryParams } from './dto/getLocationListQueryParams';
 
 @Injectable()
 export class LocationsService {
@@ -9,11 +9,14 @@ export class LocationsService {
     @InjectModel(Location) private readonly locationModel: typeof Location
   ) {}
 
-  /* TODO add query params for pagination (limit, offset).
-      Temporarily query limited with default value.
-  */
-  async getList(): Promise<Location[]> {
-    return this.locationModel.findAll({ limit: DEFAULT_LIMIT });
+  async getList(scopes: any[], query: GetLocationListQueryParams): Promise<Location[]> {
+    return this.locationModel
+      .scope(scopes.concat({ method: ['pagination', query] }))
+      .findAll();
+  }
+
+  async getCount(scopes: any[]): Promise<number> {
+    return this.locationModel.scope(scopes).count();
   }
 
   async getById(id: number): Promise<Location> {
